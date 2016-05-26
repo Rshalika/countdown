@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <link  rel="stylesheet" type="text/css" href="progressbar.css">
+    <script type="text/javascript" src="progressbar.js"></script>
+    <title>Countdown</title>
+
+</head>
+<body style="background-color:#EDEDED">
+
+<h1 style="text-align: center; font-size: 50px; font-weight: 100; font-family: arial, serif"> UNDER CONSTRUCTION</h1>
+<div id='outer'>
+    <div id="middle">
+        <div id="inner">
+            <div class="countdown">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-12" id = 'countdown' >
+                            <script src="countdown.js" type="text/javascript"></script>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="loadingBar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 ">
+                <div id="progress_bar" class="default"><div></div></div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+    </div>
+</div>
+
+<style type="text/css" scoped>
+    body, html {height: 100%;}
+    #outer {height: 50%; overflow: hidden; position: relative;}
+    #outer[id] {display: table; position: static;}
+
+    #middle {position: absolute; top: 50%;} /* for quirk explorer only*/
+    #middle[id] {display: table-cell; vertical-align: middle; width: 100%; position: static;}
+
+    #inner {position: relative; top: -50%} /* for quirk explorer only */
+    #outer {width: 100%;}
+    #inner {margin-left: auto; margin-right: auto; text-align: left;}
+    /* optional: #inner[id] {position: static;} */
+</style>
+
+<script>
+
+
+
+    $(document).ready(function () {
+        var today  = new Date(2016, 4, 26, 11, 0, 0);
+
+
+        var time;
+        var myCountdownTest;
+        var w = $('#countdown').width();
+        console.log(w);
+        var h =  w/(20/3);
+
+        var startTimer = function() {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+                var jsonString = xhttp.responseText;
+                console.log(jsonString);
+                time = JSON.parse(jsonString);
+                var other  = new Date(time.year, time.month-1, time.day, time.hour, 0, 0, 0);
+                var maxPeriod = other - today;
+                var now = Date.now();
+                var actualPeriod = other - now;
+                var percentage = 100 - (actualPeriod*100)/maxPeriod;
+                progressBar(percentage, $('#progress_bar'));
+                console.log(other);
+                console.log(percentage);
+                console.log(today);
+                console.log('maxPeriod ' + maxPeriod);
+                console.log('actualPeriod' + actualPeriod);
+                console.log(now);
+                console.log(time);
+                myCountdownTest = new Countdown({
+                    year	: time.year,
+                    month	: time.month,
+                    day		: time.day,
+                    hour    : time.hour,
+                    ampm    : time.ampm,
+                    style   : 'flip',
+                    width   : w,
+                    height  : h,
+                    target  : 'countdown',
+                    rangeHi : 'day',
+                    labels		: 	{
+                        font 	: "Arial",
+                        color	: "#000000",
+                        weight	: "normal",
+                        offset  : 1,  // Number of pixels to push the labels down away from numbers.
+                        textScale : 1.0						// <- no comma on last item!
+                    },
+                    inline  : false
+                });
+
+            }
+        };
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = startTimer;
+        xhttp.open("GET", "time.php", true);
+        xhttp.send();
+    })
+</script>
+</body>
+</html>

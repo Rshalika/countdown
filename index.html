@@ -6,24 +6,38 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Stardos+Stencil:400,700' rel='stylesheet' type='text/css'>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <link  rel="stylesheet" type="text/css" href="progressbar.css">
     <script type="text/javascript" src="progressbar.js"></script>
+
+
+    <script src="lib/jparticle.jquery.js"></script>
+
     <title>Countdown</title>
+    <style>
+        html, body{ width: 100%; height: 100%; margin: 0; padding: 0;}
+    </style>
+
 
 </head>
 <body style="background-color:#EDEDED">
 
-<h1 style="text-align: center; font-size: 50px; font-weight: 100; font-family: arial, serif"> UNDER CONSTRUCTION</h1>
+<h1 style="text-align: center; font-size: 90px; font-weight: 700; font-family: 'Stardos Stencil', fantasy;"> UNDER CONSTRUCTION</h1>
 <div id='outer'>
-    <div id="middle">
-        <div id="inner">
+    <div id="middle" >
+        <div id="inner" style="z-index: 11">
             <div class="countdown">
                 <div class="container">
                     <div class="row">
@@ -40,12 +54,12 @@
 </div>
 
 
-<div class="loadingBar">
+<div class="loadingBar" style=" position:absolute; bottom: 10px; width: 100%;">
     <div class="container">
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10 ">
-                <div id="progress_bar" class="default"><div></div></div>
+                <div  id="progressbar"></div>
             </div>
             <div class="col-md-1"></div>
         </div>
@@ -73,14 +87,11 @@
 
     $(document).ready(function () {
         var today  = new Date(2016, 4, 26, 11, 0, 0);
-
-
         var time;
         var myCountdownTest;
         var w = $('#countdown').width();
         console.log(w);
         var h =  w/(20/3);
-
         var startTimer = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
 
@@ -92,7 +103,14 @@
                 var now = Date.now();
                 var actualPeriod = other - now;
                 var percentage = 100 - (actualPeriod*100)/maxPeriod;
-                progressBar(percentage, $('#progress_bar'));
+                var progressbar = $( "#progressbar" );
+                progressbar.progressbar({
+                    value: percentage
+                });
+                progressbar.css({ 'background': 'LightYellow' });
+                progressbar.css({ 'margin': 0 });
+                progressbar.find("> div").css({ 'background': 'Orange' });
+                progressbar.find("> div").css({ 'margin': 0 });
                 console.log(other);
                 console.log(percentage);
                 console.log(today);
@@ -111,13 +129,6 @@
                     height  : h,
                     target  : 'countdown',
                     rangeHi : 'day',
-                    labels		: 	{
-                        font 	: "Arial",
-                        color	: "#000000",
-                        weight	: "normal",
-                        offset  : 1,  // Number of pixels to push the labels down away from numbers.
-                        textScale : 1.0						// <- no comma on last item!
-                    },
                     inline  : false
                 });
 
@@ -130,5 +141,31 @@
         xhttp.send();
     })
 </script>
+
+<div id="animation" style="width: 100%; height:100%; position: absolute; top:0; bottom: 0 ; z-index: 10; overflow: visible">
+    <script>
+        $("#animation").jParticle({
+            particlesNumber: 200,
+            linkDist: 50,
+            createLinkDist: 150,
+            disableLinks: false,
+            disableMouse: false,
+            background: 'rgba(0,0,0,0)',
+
+            color: "blue",
+            opacity: 0.3,
+            width: null,
+            height: null,
+            linksWidth: 1,
+            particle: {
+                color: "blue",
+                minSize: 2,
+                maxSize: 4,
+                speed: 60
+            }
+        });
+    </script>
+</div>
+
 </body>
 </html>
